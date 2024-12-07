@@ -1,0 +1,70 @@
+<app-dashboard></app-dashboard>
+<div class="container mx-auto px-4 py-8 grid grid-cols-2 gap-4">
+    <h2 class="col-span-2 text-2xl font-bold mb-4">Formulario Agenda</h2>
+    <form class="col-span-2 space-y-4" [formGroup]="agendaForm" (ngSubmit)="onSubmit()">
+        <div class="col-span-1">
+            <label for="title" class="block mb-2">Título:</label>
+            <input type="text" id="title" formControlName="titulo"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+        </div>
+        <div class="col-span-1">
+            <label for="client" class="block mb-2">Cliente:</label>
+            <select id="client" formControlName="cliente_id"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+                <option *ngFor="let cliente of clientes" [value]="cliente.id">{{ cliente.nombre }}</option>
+            </select>
+        </div>
+        <div class="col-span-1">
+            <label for="user" class="block mb-2">Usuario:</label>
+            <select id="user" formControlName="usuario_id"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+                <option *ngFor="let usuario of usuarios" [value]="usuario.id">{{ usuario.nombre }}</option>
+            </select>
+        </div>
+        <div class="col-span-1">
+            <label for="start" class="block mb-2">Fecha Inicio:</label>
+            <input type="datetime-local" id="start" formControlName="fecha_inicio"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+        </div>
+        <div class="col-span-1">
+            <label for="end" class="block mb-2">Fecha Fin:</label>
+            <input type="datetime-local" id="end" formControlName="fecha_fin"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+        </div>
+        <div class="col-span-1">
+            <label for="status" class="block mb-2">Estado:</label>
+            <select id="status" formControlName="estado"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+                <option value="activo">Activo</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="cancelado">Cancelado</option>
+            </select>
+        </div>
+        <div class="col-span-1">
+            <label for="type" class="block mb-2">Tipo:</label>
+            <select id="type" formControlName="tipo"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+                <option value="cita">Cita</option>
+                <option value="reunion">Reunión</option>
+                <option value="evento">Evento</option>
+            </select>
+        </div>
+        <div class="col-span-2">
+            <label for="description" class="block mb-2">Descripción:</label>
+            <textarea id="description" formControlName="descripcion"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                rows="4" required></textarea>
+        </div>
+        <button type="submit" [disabled]="!agendaForm.valid"
+            class="col-span-2 bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Guardar
+        </button>
+    </form>
+</div>

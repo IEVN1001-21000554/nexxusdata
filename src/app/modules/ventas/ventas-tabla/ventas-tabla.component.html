@@ -1,0 +1,74 @@
+<app-dashboard></app-dashboard>
+<div class="container mx-auto px-4 py-8">
+    <div class="sm:flex sm:items-center sm:justify-between mb-8">
+        <h2 class="text-2xl font-bold text-gray-900">Lista de Ventas</h2>
+        <button (click)="addVenta()"
+            class="mt-4 sm:mt-0 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                </path>
+            </svg>
+            Agregar Venta
+        </button>
+    </div>
+
+    <table class="w-full whitespace-no-wrap">
+        <thead>
+            <tr class="text-left bg-gray-50">
+                <th class="px-4 py-3">Cliente</th>
+                <th class="px-4 py-3">Estado</th>
+                <th class="px-4 py-3">Fecha de Venta</th>
+                <th class="px-4 py-3">Total</th>
+                <th class="px-4 py-3">Usuario</th>
+                <th class="px-4 py-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let venta of ventas" [class.bg-yellow-100]="venta.estado === 'pendiente'"
+                [class.bg-green-100]="venta.estado === 'completada'" [class.bg-red-100]="venta.estado === 'cancelada'">
+                <td class="px-6 py-4 whitespace-nowrap">{{ venta.cliente }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        [ngClass]="{'text-green-600': venta.estado === 'completada', 'text-yellow-600': venta.estado === 'pendiente', 'text-red-600': venta.estado === 'cancelada'}">
+                        {{ venta.estado }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ venta.fecha_venta | date:'yyyy-MM-dd' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ venta.monto_total | currency:'MXN':'symbol-narrow':'1.0-0' }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ venta.usuario }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <button (click)="editVenta(venta.id)"
+                        class="text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline">
+                        <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button (click)="deleteVenta(venta.id)"
+                        class="text-red-600 hover:text-red-900 focus:outline-none focus:underline">
+                        <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
+                        </svg>
+                    </button>
+                    <button *ngIf="venta.estado !== 'pendiente' && venta.estado !== 'cancelada'"
+                        (click)="getFactura(venta.id)"
+                        class="text-green-600 hover:text-green-900 focus:outline-none focus:underline">
+                        <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 5v2a2 2 0 01-2 2H9a2 2 0 01-2-2V5m8 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h8zm-3 6h-2m0 4h2m-5-4h5">
+                            </path>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

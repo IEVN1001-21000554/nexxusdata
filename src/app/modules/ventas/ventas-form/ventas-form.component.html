@@ -1,0 +1,80 @@
+<app-dashboard></app-dashboard>
+<div class="container mx-auto px-4 py-8 grid grid-cols-2 gap-4">
+    <h2 class="col-span-2 text-2xl font-bold mb-4">Formulario Venta</h2>
+    <form class="col-span-2 space-y-4" [formGroup]="ventaForm" (ngSubmit)="onSubmit()">
+        <div class="col-span-2">
+            <label for="cliente" class="block mb-2">Cliente:</label>
+            <select id="cliente" formControlName="cliente_id"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+                <option value="">Seleccione un cliente</option>
+                <option *ngFor="let cliente of clientes" [value]="cliente.id">{{ cliente.nombre }}</option>
+            </select>
+        </div>
+        <div class="col-span-2">
+            <label for="fecha_venta" class="block mb-2">Fecha de Venta:</label>
+            <input type="date" id="fecha_venta" formControlName="fecha_venta"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+        </div>
+        <div class="col-span-2">
+            <label class="block mb-2">Productos:</label>
+            <div formArrayName="detalles" class="space-y-2">
+                <div *ngFor="let detalle of detalles.controls; let i = index" [formGroupName]="i"
+                    class="flex items-center justify-between gap-2">
+                    <select formControlName="producto_id"
+                        class="w-1/3 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                        required>
+                        <option value="">Seleccione un producto</option>
+                        <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.nombre }}</option>
+                    </select>
+                    <input type="number" formControlName="cantidad"
+                        class="w-1/6 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Cantidad" required (change)="calcularSubtotal(i)">
+                    <input type="number" formControlName="precio_unitario"
+                        class="w-1/6 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Precio unitario" required (change)="calcularSubtotal(i)">
+                    <input type="number" formControlName="subtotal"
+                        class="w-1/6 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Subtotal" readonly>
+                    <button type="button" (click)="removeProducto(i)"
+                        class="bg-red-500 text-white px-2 py-1 rounded-md">
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+            <button type="button" (click)="addProducto()" class="mt-2 bg-green-500 text-white px-4 py-2 rounded-md">
+                Agregar Producto
+            </button>
+        </div>
+        <div class="col-span-2">
+            <label for="notas" class="block mb-2">Notas:</label>
+            <textarea id="notas" formControlName="notas"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                rows="3"></textarea>
+        </div>
+        <div class="col-span-2">
+            <label for="estado" class="block mb-2">Estado:</label>
+            <select id="estado" formControlName="estado"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+                <option value="pendiente">Pendiente</option>
+                <option value="completada">Completada</option>
+                <option value="cancelada">Cancelada</option>
+            </select>
+        </div>
+        <div class="col-span-2">
+            <label for="usuario" class="block mb-2">Usuario:</label>
+            <select id="usuario" formControlName="usuario_id"
+                class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                required>
+                <option value="">Seleccione un usuario</option>
+                <option *ngFor="let usuario of usuarios" [value]="usuario.id">{{ usuario.nombre }}</option>
+            </select>
+        </div>
+        <button type="submit" [disabled]="!ventaForm.valid"
+            class="col-span-2 bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Guardar
+        </button>
+    </form>
+</div>
